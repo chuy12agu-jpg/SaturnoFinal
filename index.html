@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dali y Jesús</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      overflow:hidden;
+      color:#fff;
+      background:#000;
+      text-align:center;
+    }
+
+    /* 🌌 Estrellas */
+    .stars, .stars2, .stars3{
+      position:fixed;inset:0;z-index:0;pointer-events:none;background-repeat:repeat;
+      animation:moveStars 60s linear infinite;
+      opacity:0.9;
+    }
+    .stars{background-image:radial-gradient(2px 2px at 10% 20%, #fff, transparent 40%), radial-gradient(1px 1px at 80% 70%, #fff, transparent 40%);} 
+    .stars2{animation-duration:120s;opacity:0.6;background-image:radial-gradient(1.2px 1.2px at 40% 40%, #fff, transparent 30%), radial-gradient(0.9px 0.9px at 70% 20%, #fff, transparent 30%);} 
+    .stars3{animation-duration:240s;opacity:0.4;background-image:radial-gradient(0.9px 0.9px at 20% 80%, #fff, transparent 30%);} 
+    @keyframes moveStars{from{transform:translate3d(0,0,0)}to{transform:translate3d(-2000px,0,0)}}
+
+    /* Contenedor principal */
+    .scene{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+    /* 🪐 Saturno */
+    .saturn-wrap{position:relative;width:300px;height:300px;z-index:5;}
+    .saturn{
+      width:180px;height:180px;background:radial-gradient(circle at 40% 35%, #f9d29d, #c07a39, #5a321a);
+      border-radius:50%;box-shadow:0 0 40px rgba(255,200,150,0.6);
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      z-index:5;
+    }
+    .rings{
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotateX(65deg);
+      width:500px;height:140px;border-radius:50%;
+      background:repeating-radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.2) 2px, rgba(120,120,200,0.1) 4px, transparent 6px);
+      z-index:4;animation:rotateRings 200s linear infinite;
+    }
+    @keyframes rotateRings{from{transform:translate(-50%,-50%) rotateX(65deg) rotate(0deg);}to{transform:translate(-50%,-50%) rotateX(65deg) rotate(360deg);}}
+
+    /* 📸 Fotos orbitando */
+    .orbit{
+      position:absolute;top:50%;left:50%;width:600px;height:600px;margin:-300px 0 0 -300px;
+      border-radius:50%;animation:rotateRing 120s linear infinite;z-index:3;
+    }
+    @keyframes rotateRing{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+    .photo{
+      position:absolute;width:100px;height:100px;border-radius:12px;overflow:hidden;border:2px solid rgba(255,255,255,0.6);
+      box-shadow:0 0 15px rgba(0,0,0,0.8);cursor:pointer;transition:transform .3s, filter 1s;
+    }
+    .photo img{width:100%;height:100%;object-fit:cover}
+    .photo:hover{transform:scale(1.1);filter:brightness(1.8) drop-shadow(0 0 10px #ffd700);}
+
+    /* ✨ Texto principal al frente */
+    h1{
+      position:relative;z-index:100;font-size:1.8rem;margin-bottom:20px;
+      text-shadow:0 0 15px rgba(255,255,255,0.8);animation:textGlow 6s ease-in-out infinite;
+    }
+    @keyframes textGlow{
+      0%,100%{text-shadow:0 0 10px #fff,0 0 20px #ffb6c1,0 0 30px #ff8c00;}
+      50%{text-shadow:0 0 25px #fff,0 0 45px #ffd700,0 0 65px #ff8c00;}
+    }
+
+    /* 💖 Texto tipo cometa */
+    .love-text{
+      position:absolute;bottom:20px;width:100%;font-size:1.5rem;font-weight:bold;
+      color:#ffb6c1;animation:comet 8s ease-in-out infinite;z-index:100;
+      text-shadow:0 0 10px #fff,0 0 30px #ff69b4;
+    }
+    @keyframes comet{
+      0%{transform:translateX(-100vw);opacity:0.5;filter:blur(2px);}
+      50%{transform:translateX(0);opacity:1;filter:brightness(2) blur(0);text-shadow:0 0 25px #fff,0 0 55px #ffd700;}
+      100%{transform:translateX(100vw);opacity:0.5;filter:blur(2px);}
+    }
+
+    /* 🪞 Efecto de brillo cuando pasan cerca del texto */
+    @keyframes photoGlow {
+      0%,100% { filter: brightness(1); }
+      50% { filter: brightness(1.5) drop-shadow(0 0 8px #ffd700); }
+    }
+    .orbit:hover .photo { animation: photoGlow 4s ease-in-out infinite; }
+
+    /* 💡 Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:200}
+    .lightbox img{max-width:90%;max-height:90%;border-radius:12px;box-shadow:0 0 40px #000}
+    .lightbox.active{display:flex}
+    .close{position:absolute;top:20px;right:20px;color:#fff;font-size:32px;cursor:pointer}
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="stars2"></div>
+  <div class="stars3"></div>
+
+  <div class="scene">
+    <h1>❤️ Entre las estrellas, Dali🌻 y Jesús brillamos eternamente ❤️</h1>
+    <div class="saturn-wrap">
+      <div class="rings"></div>
+      <div class="saturn"></div>
+    </div>
+    <div class="orbit">
+      <!-- Cambia las imágenes por tus fotos -->
+      <div class="photo"><img src="foto1.jpg" alt="foto1"></div>
+      <div class="photo"><img src="foto2.jpg" alt="foto2"></div>
+      <div class="photo"><img src="foto3.jpg" alt="foto3"></div>
+      <div class="photo"><img src="foto4.jpg" alt="foto4"></div>
+      <div class="photo"><img src="foto5.jpg" alt="foto5"></div>
+      <div class="photo"><img src="foto6.jpg" alt="foto6"></div>
+      <div class="photo"><img src="foto7.jpg" alt="foto7"></div>
+      <div class="photo"><img src="foto8.jpg" alt="foto8"></div>
+      <div class="photo"><img src="foto9.jpg" alt="foto9"></div>
+      <div class="photo"><img src="foto10.jpg" alt="foto10"></div>
+      <div class="photo"><img src="foto11.jpg" alt="foto11"></div>
+      <div class="photo"><img src="foto12.jpg" alt="foto12"></div>
+    </div>
+    <div class="love-text">TE AMO PARA SIEMPRE</div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="close" id="closeBtn">&times;</span>
+    <img id="lightImg" src="" alt="foto grande" />
+  </div>
+
+  <script>
+    const photos = document.querySelectorAll('.photo img');
+    const lightbox = document.getElementById('lightbox');
+    const lightImg = document.getElementById('lightImg');
+    const closeBtn = document.getElementById('closeBtn');
+
+    photos.forEach(photo=>{
+      photo.addEventListener('click', ()=>{
+        lightImg.src = photo.src;
+        lightbox.classList.add('active');
+      });
+    });
+
+    closeBtn.addEventListener('click', ()=>{
+      lightbox.classList.remove('active');
+      lightImg.src="";
+    });
+  </script>
+</body>
+</html>
